@@ -36,14 +36,8 @@ namespace Contextually
         /// </summary>
         public void Dispose()
         {
-            // Dump our reference, since we don't need it. Optimizing for GC.
-            CurrentInfo = null;
-
             // Set the head of the context linked-list to the parent of this.
             Relevant.Head.Value = ParentBlock;
-
-            // Dump our reference, since we don't need it. Optimizing for GC.
-            ParentBlock = null;
         }
     }
 }

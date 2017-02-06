@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 namespace Contextually.Tests
 {
     [TestClass]
+    [TestCategory("Synchronyous")]
     public class SynchronyousTests
     {
         [TestMethod]
@@ -21,7 +22,7 @@ namespace Contextually.Tests
         }
 
         [TestMethod]
-        public void AccessingInfoWithASingleBlockReturnExpectedValues()
+        public void AccessingInfoWithinASingleBlockReturnsExpectedValues()
         {
             // ARRANGE
             var expectedValues = new NameValueCollection
@@ -65,7 +66,7 @@ namespace Contextually.Tests
         }
 
         [TestMethod]
-        public void AccessingInfoWithANestedBlockReturnExpectedValues()
+        public void AccessingInfoWithinNestedBlocksReturnsExpectedValues()
         {
             // ARRANGE
             var expectedValuesLevelOne = new NameValueCollection
@@ -112,7 +113,7 @@ namespace Contextually.Tests
         }
 
         [TestMethod]
-        public void AccessingInfoAfterANestedBlockReturnExpectedValues()
+        public void AccessingInfoAfterANestedBlockReturnsExpectedValues()
         {
             // ARRANGE
             var expectedValuesLevelOne = new NameValueCollection

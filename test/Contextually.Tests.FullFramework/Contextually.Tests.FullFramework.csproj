@@ -53,6 +53,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Contextually.Tests\AsynchronyousAndThreadedTests.cs">
+      <Link>AsynchronyousAndThreadedTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Contextually.Tests\AsynchronyousTests.cs">
+      <Link>AsynchronyousTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Contextually.Tests\SynchronyousTaskTests.cs">
+      <Link>SynchronyousTaskTests.cs</Link>
+    </Compile>
     <Compile Include="..\Contextually.Tests\SynchronyousTests.cs">
       <Link>SynchronyousTests.cs</Link>
     </Compile>
