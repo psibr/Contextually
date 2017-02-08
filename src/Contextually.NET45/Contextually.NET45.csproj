@@ -1,6 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
+    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <Version>1.1.0</Version>
+    <RootNamespace>Contextually</RootNamespace>
+    <Copyright>Psibernetic Solutions, LLC 2017</Copyright>
+    <AssemblyName>Contextually</AssemblyName>
+    <Company>Psibernetic Solutions, LLC</Company>
+    <Description />
+    <Authors>Ovan Crone, Andrea Balfour</Authors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Contextually\InfoBlock.cs" Link="InfoBlock.cs" />
