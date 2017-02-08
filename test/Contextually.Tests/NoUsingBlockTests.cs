@@ -1,11 +1,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Specialized;
 
 namespace Contextually.Tests
 {
     [TestClass]
-    [TestCategory("Synchronyous")]
-    public class SynchronyousTests
+    [TestCategory("NoUsingBlock")]
+    public class NoUsingBlockTests
     {
         [TestMethod]
         public void AccessingInfoWithoutABlockReturnsEmptyCollection()
@@ -33,10 +34,11 @@ namespace Contextually.Tests
             NameValueCollection actualValues;
 
             // ACT
-            using (Relevant.Info(expectedValues))
-            {
-                actualValues = Relevant.Info();
-            }
+            var infoBlock = Relevant.Info(expectedValues);
+
+            actualValues = Relevant.Info();
+
+            infoBlock.Dispose();
 
             // ASSERT
             Assert.IsNotNull(actualValues, "should have a value");
@@ -52,10 +54,11 @@ namespace Contextually.Tests
             NameValueCollection actual;
 
             // ACT
-            using (Relevant.Info(new NameValueCollection { ["Key1"] = "Value1" }))
-            {
-                var unusedValues = Relevant.Info();
-            }
+            var infoBlock = Relevant.Info(new NameValueCollection { ["Key1"] = "Value1" });
+
+            var unusedValues = Relevant.Info();
+
+            infoBlock.Dispose();
 
             actual = Relevant.Info();
 
@@ -89,15 +92,17 @@ namespace Contextually.Tests
             NameValueCollection actualValuesLevelTwo;
 
             // ACT
-            using (Relevant.Info(expectedValuesLevelOne))
-            {
-                actualValuesLevelOne = Relevant.Info();
+            var levelOne = Relevant.Info(expectedValuesLevelOne);
 
-                using (Relevant.Info(valuesLevelTwo))
-                {
-                    actualValuesLevelTwo = Relevant.Info();
-                }
-            }
+            actualValuesLevelOne = Relevant.Info();
+
+            var levelTwo = Relevant.Info(valuesLevelTwo);
+
+            actualValuesLevelTwo = Relevant.Info();
+
+            levelTwo.Dispose();
+            levelOne.Dispose();
+
 
             // ASSERT
             Assert.IsNotNull(actualValuesLevelOne, "should have a value");
@@ -138,17 +143,19 @@ namespace Contextually.Tests
             NameValueCollection actualValuesAfterLevelTwo;
 
             // ACT
-            using (Relevant.Info(expectedValuesLevelOne))
-            {
-                actualValuesLevelOne = Relevant.Info();
+            var levelOne = Relevant.Info(expectedValuesLevelOne);
 
-                using (Relevant.Info(valuesLevelTwo))
-                {
-                    actualValuesLevelTwo = Relevant.Info();
-                }
+            actualValuesLevelOne = Relevant.Info();
 
-                actualValuesAfterLevelTwo = Relevant.Info();
-            }
+            var levelTwo = Relevant.Info(valuesLevelTwo);
+
+            actualValuesLevelTwo = Relevant.Info();
+
+            levelTwo.Dispose();
+
+            actualValuesAfterLevelTwo = Relevant.Info();
+
+            levelOne.Dispose();
 
             // ASSERT
             Assert.IsNotNull(actualValuesAfterLevelTwo, "should have a value");
@@ -157,49 +164,123 @@ namespace Contextually.Tests
             Assert.AreEqual(expectedValuesLevelOne["Key1"], actualValuesAfterLevelTwo["Key1"], "should have same value");
         }
 
-        //[TestMethod]
-        //public void AccessingInfoAfterANestedBlockReturnsExpectedValuesForKey()
-        //{
-        //    // ARRANGE
-        //    var expectedValuesLevelOne = new NameValueCollection
-        //    {
-        //        ["Key1"] = "Value1"
-        //    };
+        [TestMethod]
+        public void DisposingOutOfOrderThrows()
+        {
+            // ARRANGE
+            var expectedValuesLevelOne = new NameValueCollection
+            {
+                ["Key1"] = "Value1"
+            };
 
-        //    var expectedValuesLevelTwo = new NameValueCollection
-        //    {
-        //        ["Key1"] = "Value1",
-        //        ["Key1"] = "Value2"
-        //    };
+            var expectedValuesLevelTwo = new NameValueCollection
+            {
+                ["Key1"] = "Value1",
+                ["Key2"] = "Value2"
+            };
 
-        //    var valuesLevelTwo = new NameValueCollection
-        //    {
-        //        ["Key1"] = "Value2"
-        //    };
+            var valuesLevelTwo = new NameValueCollection
+            {
+                ["Key2"] = "Value2"
+            };
 
-        //    NameValueCollection actualValuesLevelOne;
-        //    NameValueCollection actualValuesLevelTwo;
+            NameValueCollection actualValuesLevelOne;
+            NameValueCollection actualValuesLevelTwo;
 
-        //    NameValueCollection actualValuesAfterLevelTwo;
+            NameValueCollection actualValuesAfterLevelTwo;
+            Action clean = () => { };
 
-        //    // ACT
-        //    using (Relevant.Info(expectedValuesLevelOne))
-        //    {
-        //        actualValuesLevelOne = Relevant.Info();
+            // ACT
+            Action act = () =>
+            {
+                var levelOne = Relevant.Info(expectedValuesLevelOne);
 
-        //        using (Relevant.Info(valuesLevelTwo))
-        //        {
-        //            actualValuesLevelTwo = Relevant.Info();
-        //        }
+                actualValuesLevelOne = Relevant.Info();
 
-        //        actualValuesAfterLevelTwo = Relevant.Info();
-        //    }
+                var levelTwo = Relevant.Info(valuesLevelTwo);
 
-        //    // ASSERT
-        //    Assert.IsNotNull(actualValuesAfterLevelTwo, "should have a value");
-        //    Assert.IsInstanceOfType(actualValuesAfterLevelTwo, typeof(NameValueCollection), "should be a NameValueCollection");
-        //    Assert.AreEqual(expectedValuesLevelOne.Count, actualValuesAfterLevelTwo.Count, $"should have {expectedValuesLevelOne.Count} pair");
-        //    Assert.AreEqual(expectedValuesLevelOne["Key1"], actualValuesAfterLevelTwo["Key1"], "should have same value");
-        //}
+                actualValuesLevelTwo = Relevant.Info();
+
+                clean = () =>
+                {
+                    // Proper disposal order. For use after we see exception, so we don't pollute other tests.
+                    levelTwo.Dispose();
+                    levelOne.Dispose();
+                };
+
+                // Out of order disposal.
+                levelOne.Dispose();
+
+                actualValuesAfterLevelTwo = Relevant.Info();
+
+                levelTwo.Dispose();
+            };
+
+            // ASSERT
+            Assert.ThrowsException<OutOfOrderInfoBlockDisposalException>(act);
+
+            // CLEAN
+            clean();
+        }
+
+        [TestMethod]
+        public void MultipleDisposalThrows()
+        {
+            // ARRANGE
+            var expectedValuesLevelOne = new NameValueCollection
+            {
+                ["Key1"] = "Value1"
+            };
+
+            var expectedValuesLevelTwo = new NameValueCollection
+            {
+                ["Key1"] = "Value1",
+                ["Key2"] = "Value2"
+            };
+
+            var valuesLevelTwo = new NameValueCollection
+            {
+                ["Key2"] = "Value2"
+            };
+
+            NameValueCollection actualValuesLevelOne;
+            NameValueCollection actualValuesLevelTwo;
+
+            NameValueCollection actualValuesAfterLevelTwo = null;
+            Action clean = () => { };
+
+            // ACT
+            Action act = () =>
+            {
+                var levelOne = Relevant.Info(expectedValuesLevelOne);
+
+                actualValuesLevelOne = Relevant.Info();
+
+                var levelTwo = Relevant.Info(valuesLevelTwo);
+
+                actualValuesLevelTwo = Relevant.Info();
+
+                clean = () =>
+                {
+                    // Proper REMAINING disposal order. For use if we see an exception, so we don't pollute other tests.
+                    levelOne.Dispose();
+                };
+
+                levelTwo.Dispose();
+
+                // Duplicate disposal
+                levelTwo.Dispose();
+
+                actualValuesAfterLevelTwo = Relevant.Info();
+
+                levelOne.Dispose();
+            };
+
+            // ASSERT
+            Assert.ThrowsException<ObjectDisposedException>(act);
+
+            // CLEAN
+            clean();
+        }
     }
 }

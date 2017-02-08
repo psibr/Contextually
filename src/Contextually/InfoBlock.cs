@@ -9,6 +9,8 @@ namespace Contextually
     /// </summary>
     internal class InfoBlock : IDisposable
     {
+        private bool IsDisposed { get; set; }
+
         /// <summary>
         /// Create a new Info block with new values and potentially a parent block.
         /// </summary>
@@ -18,7 +20,7 @@ namespace Contextually
         {
             ParentBlock = parent;
 
-            CurrentInfo = info;
+            CurrentInfo = new NameValueCollection(info);
         }
 
         /// <summary>
@@ -34,10 +36,26 @@ namespace Contextually
         /// <summary>
         /// Disposes of the context and sets the active context to the parent, if any.
         /// </summary>
+        /// <exception cref="OutOfOrderInfoBlockDisposalException">
+        /// Thrown when a using block was not used and disposal happened in an improper order.
+        /// </exception>
         public void Dispose()
         {
-            // Set the head of the context linked-list to the parent of this.
-            Relevant.Head.Value = ParentBlock;
+            if (IsDisposed)
+                throw new ObjectDisposedException(nameof(InfoBlock), 
+                    "This Info block was already disposed, and you should already know that.");
+
+            if (Relevant.Head.Value == this)
+            {
+                // Set the head of the context linked-list to the parent of this.
+                Relevant.Head.Value = ParentBlock;
+
+                IsDisposed = true;
+            }
+            else
+            {
+                throw new OutOfOrderInfoBlockDisposalException();
+            }
         }
     }
 }
