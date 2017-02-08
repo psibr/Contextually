@@ -8,6 +8,10 @@
     <Description />
     <Authors>Ovan Crone, Andrea Balfour</Authors>
     <Copyright>Psibernetic Solutions, LLC 2017</Copyright>
+    <PackageProjectUrl>https://github.com/psibr/Contextually</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/psibr/Contextually</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />

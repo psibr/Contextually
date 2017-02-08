@@ -10,6 +10,11 @@
     <Company>Psibernetic Solutions, LLC</Company>
     <Description />
     <Authors>Ovan Crone, Andrea Balfour</Authors>
+    <PackageId>Contextually.NET45</PackageId>
+    <PackageProjectUrl>https://github.com/psibr/Contextually</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/psibr/Contextually</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Contextually\InfoBlock.cs" Link="InfoBlock.cs" />
