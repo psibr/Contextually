@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Contextually.NET45\Contextually.NET45.csproj">
-      <Project>{3d92160d-d4bf-4f3c-9ac0-383f33863bb0}</Project>
+      <Project>{f26e96ca-1aae-45ad-b32b-80ff2d783dba}</Project>
       <Name>Contextually.NET45</Name>
     </ProjectReference>
   </ItemGroup>
