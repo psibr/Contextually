@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Collections.Concurrent;
 using System.Threading;
 
 namespace Contextually
@@ -12,7 +13,8 @@ namespace Contextually
     {
         private static RelevantInfoContainer RootContainer { get; } = new RelevantInfoContainer();
 
-        private static IDictionary<string, RelevantInfoContainer> NamedContainers { get; } = new Dictionary<string, RelevantInfoContainer>();
+        private static ConcurrentDictionary<string, RelevantInfoContainer> NamedContainers { get; } 
+            = new ConcurrentDictionary<string, RelevantInfoContainer>();
 
         /// <summary>
         /// Retrieve the full set of values from all enclosing Info blocks.
@@ -27,7 +29,9 @@ namespace Contextually
                 if(!NamedContainers.TryGetValue(containerName, out var container))
                 {
                     container = new RelevantInfoContainer();
-                    NamedContainers.Add(containerName, container);                    
+
+                    if (!NamedContainers.TryAdd(containerName, container))
+                        container = NamedContainers[containerName];               
                 }
 
                 return container.Info();
@@ -48,7 +52,9 @@ namespace Contextually
                 if(!NamedContainers.TryGetValue(containerName, out var container))
                 {
                     container = new RelevantInfoContainer();
-                    NamedContainers.Add(containerName, container);                    
+
+                    if (!NamedContainers.TryAdd(containerName, container))
+                        container = NamedContainers[containerName];
                 }
 
                 return container.Info(info);
