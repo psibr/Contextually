@@ -11,7 +11,7 @@ namespace Contextually
         internal OutOfOrderInfoBlockDisposalException(string message) : base(message) { }
         internal OutOfOrderInfoBlockDisposalException(string message, Exception inner) : base(message, inner) { }
 
-        public static string DefaultMessage =>
+        private static string DefaultMessage =>
             "Disposing out of order will cause context to \"bleed\" " +
             "from the current scope. Consider this a fatal exception.";
     }

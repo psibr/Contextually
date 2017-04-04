@@ -14,7 +14,7 @@ namespace Contextually
         /// <summary>
         /// Create a new Info block with new values and potentially a parent block.
         /// </summary>
-        /// <param name="parent">Optional parent block.</param>
+        /// <param name="container">Container to write values into.</param>
         /// <param name="info">Required values for this block.</param>
         internal InfoBlock(RelevantInfoContainer container, NameValueCollection info)
         {

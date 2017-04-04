@@ -42,6 +42,7 @@ namespace Contextually
         /// Starts a new Info block with a set of values.
         /// </summary>
         /// <param name="info">The values this Info block represents.</param>
+        /// <param name="containerName">Name of the container to write into.</param>
         /// <returns>An <see cref="IDisposable"/> object for use with a using block.</returns>
         public static IDisposable Info(NameValueCollection info, string containerName = null)
         {

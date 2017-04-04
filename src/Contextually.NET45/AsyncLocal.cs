@@ -9,9 +9,11 @@ using System.Threading;
 namespace System.Threading
 {
     /// <summary>
-    /// Polyfill for AsyncLocal<T> functionality added in NETSTANDARD1.3 and .NET 4.6
+    /// Polyfill for AsyncLocal functionality added in NETSTANDARD1.3 and .NET 4.6
     /// </summary>
-    /// <typeparam name="T">The type of the value to encapsulate and follow.</typeparam>
+    /// <typeparam name="T">
+    /// The type of the value to encapsulate and follow.
+    /// </typeparam>
     internal class AsyncLocal<T>
     {
         private string UniqueDataItemKey { get; }
