@@ -7,9 +7,6 @@ namespace Contextually
     /// Component that uses the IDisposable pattern 
     /// to add possibly nested contextual information, similar to a method stack.
     /// </summary>
-    #if NET45
-    [Serializable]
-    #endif
     internal class InfoBlock : IDisposable
     {
         private bool IsDisposed { get; set; }
