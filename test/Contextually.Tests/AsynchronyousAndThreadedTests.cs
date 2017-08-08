@@ -175,7 +175,7 @@ namespace Contextually.Tests
 
             using (Relevant.Info(expectedValuesLevelOne))
             {
-                assignerThread = new Thread(new ThreadStart(() => levelOneTask = TaskWithInfo()));
+                assignerThread = new Thread(() => levelOneTask = TaskWithInfo());
 
                 assignerThread.Start();
 
