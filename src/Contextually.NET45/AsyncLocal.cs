@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
+using Contextually.Reflection;
 
 namespace System.Threading
 {
@@ -16,12 +12,7 @@ namespace System.Threading
     /// </typeparam>
     internal class AsyncLocal<T>
     {
-        private string UniqueDataItemKey { get; }
-
-        public AsyncLocal()
-        {
-            UniqueDataItemKey = Guid.NewGuid().ToString();
-        }
+        private readonly string _name = Guid.NewGuid().ToString("N");
 
         /// <summary>
         /// Gets or set the value to flow with <see cref="ExecutionContext"/>.
@@ -30,11 +21,17 @@ namespace System.Threading
         {
             get
             {
-                return (T)CallContext.LogicalGetData(UniqueDataItemKey);
+                return (T)CallContext.LogicalGetData(_name);
             }
             set
             {
-                CallContext.LogicalSetData(UniqueDataItemKey, value);
+                // Mimic the implementation of AsyncLocal<T>
+                var executionContext = Thread.CurrentThread.GetMutableExecutionContext();
+                var logicalCallContext = executionContext.GetLogicalCallContext();
+                var datastore = logicalCallContext.GetDatastore();
+                var datastoreCopy = datastore == null ? new Hashtable() : new Hashtable(datastore);
+                datastoreCopy[_name] = value;
+                logicalCallContext.SetDatastore(datastoreCopy);
             }
         }
 
