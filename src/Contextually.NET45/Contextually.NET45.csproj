@@ -1,20 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
-    <FileVersion>1.2.2.0</FileVersion>
-    <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <Version>1.2.2</Version>
+    <FileVersion>1.4.0.0</FileVersion>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <Version>1.4.0</Version>
     <RootNamespace>Contextually</RootNamespace>
     <Copyright>Psibernetic Solutions, LLC 2017</Copyright>
     <AssemblyName>Contextually</AssemblyName>
     <Company>Psibernetic Solutions, LLC</Company>
     <Description />
-    <Authors>Ovan Crone, Andrea Balfour</Authors>
+    <Authors>Ovan Crone, Andrea Balfour, Sergii Semenov</Authors>
     <PackageId>Contextually.NET45</PackageId>
     <PackageProjectUrl>https://github.com/psibr/Contextually</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/psibr/Contextually</RepositoryUrl>
     <RepositoryType>GIT</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\net45\Contextually.xml</DocumentationFile>
