@@ -36,7 +36,7 @@ namespace Contextually.Tests.Net45
 
             var values = blockValues.GetValues(key);
             Assert.IsNotNull(values);
-            Assert.AreEqual(1, values);
+            Assert.AreEqual(1, values.Length);
             Assert.AreEqual(value, values[0]);
         }
 
