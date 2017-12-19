@@ -63,6 +63,7 @@
     <Compile Include="..\Contextually.Tests\SynchronyousTests.cs">
       <Link>SynchronyousTests.cs</Link>
     </Compile>
+    <Compile Include="AppDomainTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
