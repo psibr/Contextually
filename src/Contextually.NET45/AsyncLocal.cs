@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
 using Contextually.Reflection;
 
@@ -21,7 +22,9 @@ namespace System.Threading
         {
             get
             {
-                return (T)CallContext.LogicalGetData(_name);
+                if (CallContext.LogicalGetData(_name) is ObjectHandle slot)
+                    return (T)slot.Unwrap();
+                return default(T);
             }
             set
             {
@@ -30,10 +33,10 @@ namespace System.Threading
                 var logicalCallContext = executionContext.GetLogicalCallContext();
                 var datastore = logicalCallContext.GetDatastore();
                 var datastoreCopy = datastore == null ? new Hashtable() : new Hashtable(datastore);
-                datastoreCopy[_name] = value;
+                var slot = new ObjectHandle(value);
+                datastoreCopy[_name] = slot;
                 logicalCallContext.SetDatastore(datastoreCopy);
             }
         }
-
     }
 }
