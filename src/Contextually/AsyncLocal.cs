@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if NET45
+using System.Collections;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
 using Contextually.Reflection;
@@ -40,3 +41,4 @@ namespace System.Threading
         }
     }
 }
+#endif

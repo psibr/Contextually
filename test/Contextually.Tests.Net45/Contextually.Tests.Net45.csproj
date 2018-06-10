@@ -70,9 +70,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Contextually.NET45\Contextually.NET45.csproj">
-      <Project>{f26e96ca-1aae-45ad-b32b-80ff2d783dba}</Project>
-      <Name>Contextually.NET45</Name>
+    <ProjectReference Include="..\..\src\Contextually\Contextually.csproj">
+      <Project>{0980a85f-3ab0-4c19-99aa-8337ab47cd06}</Project>
+      <Name>Contextually</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

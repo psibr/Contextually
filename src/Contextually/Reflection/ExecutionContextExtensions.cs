@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
@@ -23,3 +24,4 @@ namespace Contextually.Reflection
             => _getLogicalCallContextFunc(executionContext);
     }
 }
+#endif

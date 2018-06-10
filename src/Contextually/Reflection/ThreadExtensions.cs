@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
@@ -25,3 +26,4 @@ namespace Contextually.Reflection
             => _getMutableExecutionContextFunc(thread);
     }
 }
+#endif
