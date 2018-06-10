@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET45
+using System;
 using System.Collections;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -32,3 +33,4 @@ namespace Contextually.Reflection
             => _setDatastoreFunc(context, datastore);
     }
 }
+#endif
