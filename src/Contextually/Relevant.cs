@@ -9,7 +9,7 @@ namespace Contextually
     /// <summary>
     /// Allows the creation of Info blocks and reading the current context.
     /// </summary>
-    public static class Relevant
+    public static partial class Relevant
     {
         private static RelevantInfoContainer RootContainer { get; } = new RelevantInfoContainer();
 
