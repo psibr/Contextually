@@ -17,5 +17,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Condition="'$(TargetFramework)'=='netstandard1.3'" Include="System.Collections.Specialized" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
   </ItemGroup>
 </Project>
