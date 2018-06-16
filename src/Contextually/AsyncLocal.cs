@@ -1,4 +1,4 @@
-﻿#if NET45
+﻿#if NET452
 using System.Collections;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
