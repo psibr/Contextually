@@ -61,6 +61,96 @@ namespace Contextually
                 return container.Info(info);
             }
         }
+
+        /// <summary>
+        /// Starts a new Info block with a set of values.
+        /// </summary>
+        /// <param name="name">The name of a value.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>An <see cref="IDisposable"/> object for use with a using block.</returns>
+        public static IDisposable Info(string name, string value) =>
+            Info(new NameValueCollection(1)
+            {
+                [name] = value
+            });
+
+        /// <summary>
+        /// Starts a new Info block with a set of values.
+        /// </summary>
+        /// <param name="tuple">The name-value tuple this Info block represents.</param>
+        /// <returns>An <see cref="IDisposable"/> object for use with a using block.</returns>
+        public static IDisposable Info((string name, string value) tuple) =>
+            Info(new NameValueCollection(1)
+            {
+                [tuple.name] = tuple.value
+            });
+
+        /// <summary>
+        /// Starts a new Info block with a set of values.
+        /// </summary>
+        /// <param name="tuple1">A name-value tuple this Info block represents.</param>
+        /// <param name="tuple2">A name-value tuple this Info block represents.</param>
+        /// <returns>An <see cref="IDisposable"/> object for use with a using block.</returns>
+        public static IDisposable Info(
+            (string name, string value) tuple1,
+            (string name, string value) tuple2) =>
+            Info(new NameValueCollection(2)
+            {
+                [tuple1.name] = tuple1.value,
+                [tuple2.name] = tuple2.value
+            });
+
+        /// <summary>
+        /// Starts a new Info block with a set of values.
+        /// </summary>
+        /// <param name="tuple1">A name-value tuple this Info block represents.</param>
+        /// <param name="tuple2">A name-value tuple this Info block represents.</param>
+        /// <param name="tuple3">A name-value tuple this Info block represents.</param>
+        /// <returns>An <see cref="IDisposable"/> object for use with a using block.</returns>
+        public static IDisposable Info(
+            (string name, string value) tuple1,
+            (string name, string value) tuple2,
+            (string name, string value) tuple3) =>
+            Info(new NameValueCollection(3)
+            {
+                [tuple1.name] = tuple1.value,
+                [tuple2.name] = tuple2.value,
+                [tuple3.name] = tuple3.value,
+            });
+
+        /// <summary>
+        /// Starts a new Info block with a set of values.
+        /// </summary>
+        /// <param name="tuple1">A name-value tuple this Info block represents.</param>
+        /// <param name="tuple2">A name-value tuple this Info block represents.</param>
+        /// <param name="tuple3">A name-value tuple this Info block represents.</param>
+        /// <param name="tuple4">A name-value tuple this Info block represents.</param>
+        /// <returns>An <see cref="IDisposable"/> object for use with a using block.</returns>
+        public static IDisposable Info(
+            (string name, string value) tuple1,
+            (string name, string value) tuple2,
+            (string name, string value) tuple3,
+            (string name, string value) tuple4) =>
+            Info(new NameValueCollection(4)
+            {
+                [tuple1.name] = tuple1.value,
+                [tuple2.name] = tuple2.value,
+                [tuple3.name] = tuple3.value,
+                [tuple4.name] = tuple4.value
+            });
+
+        /// <summary>
+        /// Starts a new Info block with a set of values.
+        /// </summary>
+        /// <param name="tuples">The collection of name-value tuples this Info block represents.</param>
+        /// <returns>An <see cref="IDisposable"/> object for use with a using block.</returns>
+        public static IDisposable Info(params (string name, string value)[] tuples)
+        {
+            var nameValueCollection = new NameValueCollection(tuples.Length);
+            foreach (var tuple in tuples)
+                nameValueCollection.Add(tuple.name, tuple.value);
+            return Info(nameValueCollection);
+        }
     }
 
     /// <summary>
