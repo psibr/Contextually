@@ -20,6 +20,12 @@ namespace Contextually
         /// Retrieve the full set of values from all enclosing Info blocks.
         /// </summary>
         /// <returns>Full set of values from all enclosing Info blocks.</returns>
+        public static NameValueCollection Info() => Info(containerName: null);
+
+        /// <summary>
+        /// Retrieve the full set of values from all enclosing Info blocks.
+        /// </summary>
+        /// <returns>Full set of values from all enclosing Info blocks.</returns>
         public static NameValueCollection Info(string containerName = null)
         {
             if(containerName == null)
