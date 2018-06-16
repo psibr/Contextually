@@ -114,5 +114,33 @@ namespace Contextually.Tests
             Assert.AreEqual("value2", actualRelevantInfo["key2"], "value 2 must match");
             Assert.AreEqual("value3", actualRelevantInfo["key3"], "value 3 must match");
         }
+
+        [TestMethod]
+        public async Task InfoAutoAddedToExceptions()
+        {
+            // ARRANGE
+            Relevant.InfoAutoAddedToExceptions();
+
+            // ACT
+            Exception caughtException;
+            using (Relevant.Info("key1", "value1"))
+            {
+                try
+                {
+                    throw new Exception();
+                }
+                catch (Exception ex)
+                {
+                    caughtException = ex;
+                }
+            }
+
+            var actualRelevantInfo = caughtException.GetReleventInfo();
+
+            // ASSERT
+            Assert.IsNotNull(actualRelevantInfo, "should return a value");
+            Assert.AreEqual(1, actualRelevantInfo.Count, $"should have 1 pair");
+            Assert.AreEqual("value1", actualRelevantInfo["key1"], "value must match");
+        }
     }
 }
