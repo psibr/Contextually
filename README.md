@@ -36,7 +36,7 @@ namespace Sample
       };
       
       // Setup a sub-context of relevant information.
-      using (Relevant.Info(systemContext))
+      using (Relevant.Info(appContext)
       {
         while (...)
           DoWork();
